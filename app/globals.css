@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-cream: #FBF9F4;
+  --color-charcoal: #20241F;
+
+  --color-pistachio-50: #F2F7EE;
+  --color-pistachio-100: #E3EEDA;
+  --color-pistachio-300: #B9D6A8;
+  --color-pistachio-500: #8FB88A;
+  --color-pistachio-700: #5C8A56;
+
+  --color-ember-100: #F7E4D9;
+  --color-ember-300: #E9AE8D;
+  --color-ember-500: #D97757;
+  --color-ember-700: #B85C3E;
+
+  --font-serif: var(--font-fraunces), serif;
+  --font-sans: var(--font-inter), sans-serif;
+}
