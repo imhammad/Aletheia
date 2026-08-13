@@ -19,11 +19,11 @@ export type Topic = {
   slug: string;
   title: string;
   domain: string;
-  rendererType: RendererType;
+  renderer_type: RendererType;
   difficulty: "beginner" | "intermediate" | "advanced";
   summary: string;
   notes: string;
-  visualizationData: StepPlayerData | NodeGraphData;
+  visualization_data: StepPlayerData | NodeGraphData;
 };
 
 export type GraphNode = {
