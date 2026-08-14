@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { LogoutButton } from "@/components/LogoutButton";
+import { LogoutButton } from "./LogoutButton";
 
 export async function Navbar() {
   const supabase = await createClient();
@@ -14,6 +14,9 @@ export async function Navbar() {
       <div className="flex items-center gap-4 font-sans text-sm">
         <Link href="/topics" className="text-charcoal/70 hover:text-charcoal">
           Topics
+        </Link>
+        <Link href="/roadmaps" className="text-charcoal/70 hover:text-charcoal">
+          Roadmaps
         </Link>
         {user ? (
           <>
