@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "@/components/Navbar";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fraunces.variable} ${inter.variable} font-sans bg-cream text-charcoal antialiased`}>
+        <Navbar />
         {children}
       </body>
     </html>
