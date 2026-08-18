@@ -1,10 +1,10 @@
-import { GoogleGenAI } from "@google/genai";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { quizQuestions } from "@/lib/quiz-questions";
 import type { QuizAnswer } from "@/types/quiz";
+import { generateStructuredContent } from "@/lib/gemini";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -40,51 +40,18 @@ Existing roadmap fields on this platform (prefer matching one of these if it gen
 
 Respond with a specific field name, a short 2-3 sentence explanation of why it fits based on their answers, and the roadmap field name to search for.`;
 
-  const modelsToTry = ["gemini-flash-latest", "gemini-flash-lite-latest"];
-
-  const generateWithModel = async (model: string, retries = 1): Promise<string> => {
-    try {
-      const response = await ai.models.generateContent({
-        model,
-        contents: prompt,
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: "object",
-            properties: {
-              recommendedField: { type: "string" },
-              reasoning: { type: "string" },
-              suggestedRoadmapField: { type: "string" },
-            },
-            required: ["recommendedField", "reasoning", "suggestedRoadmapField"],
-          },
-        },
-      });
-      return response.text ?? "{}";
-    } catch (err) {
-      const isOverloaded = err instanceof Error && err.message.includes("UNAVAILABLE");
-      if (isOverloaded && retries > 0) {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        return generateWithModel(model, retries - 1);
-      }
-      throw err;
-    }
-  };
-
-  const generateWithFallback = async (): Promise<string> => {
-    let lastError: unknown;
-    for (const model of modelsToTry) {
-      try {
-        return await generateWithModel(model);
-      } catch (err) {
-        lastError = err;
-      }
-    }
-    throw lastError;
+  const schema = {
+    type: "object",
+    properties: {
+      recommendedField: { type: "string" },
+      reasoning: { type: "string" },
+      suggestedRoadmapField: { type: "string" },
+    },
+    required: ["recommendedField", "reasoning", "suggestedRoadmapField"],
   };
 
   try {
-    const text = await generateWithFallback();
+    const text = await generateStructuredContent(prompt, schema);
     const recommendation = JSON.parse(text);
     return NextResponse.json(recommendation);
   } catch (error) {
