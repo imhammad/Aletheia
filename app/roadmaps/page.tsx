@@ -2,14 +2,21 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Roadmap } from "@/types/roadmap";
 
-export default async function RoadmapsIndexPage() {
+export default async function RoadmapsIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ field?: string }>;
+}) {
+  const { field } = await searchParams;
   const supabase = await createClient();
 
-  const { data: roadmaps } = await supabase
-    .from("roadmaps")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .returns<Roadmap[]>();
+  let query = supabase.from("roadmaps").select("*").order("created_at", { ascending: false });
+
+  if (field) {
+    query = query.ilike("field", `%${field}%`);
+  }
+
+  const { data: roadmaps } = await query.returns<Roadmap[]>();
 
   return (
     <main className="min-h-screen bg-cream py-16 px-6">
@@ -19,8 +26,15 @@ export default async function RoadmapsIndexPage() {
             Learning Roadmaps
           </h1>
           <p className="font-sans text-charcoal/70">
-            Community-curated paths for different CS fields.
+            {field
+              ? `Showing roadmaps matching "${field}"`
+              : "Community-curated paths for different CS fields."}
           </p>
+          {field && (
+            <Link href="/roadmaps" className="font-sans text-sm text-ember-700 hover:text-ember-500 underline">
+              Clear filter
+            </Link>
+          )}
         </div>
         <Link
           href="/roadmaps/new"
@@ -32,9 +46,19 @@ export default async function RoadmapsIndexPage() {
 
       <div className="max-w-3xl mx-auto grid gap-4">
         {roadmaps?.length === 0 && (
-          <p className="font-sans text-charcoal/60 text-center py-12">
-            No roadmaps yet — be the first to create one.
-          </p>
+          <div className="text-center py-12">
+            <p className="font-sans text-charcoal/60 mb-4">
+              {field
+                ? `No roadmaps yet for "${field}" — be the first to create one.`
+                : "No roadmaps yet — be the first to create one."}
+            </p>
+            <Link
+              href="/roadmaps/new"
+              className="font-sans text-sm text-ember-700 hover:text-ember-500 underline"
+            >
+              Create the first roadmap
+            </Link>
+          </div>
         )}
         {roadmaps?.map((roadmap) => (
           <Link
