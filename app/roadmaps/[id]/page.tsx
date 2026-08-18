@@ -4,6 +4,7 @@ import { AddResourceForm } from "@/components/AddResourceForm";
 import type { Roadmap, RoadmapResource } from "@/types/roadmap";
 import { RatingWidget } from "@/components/RatingWidget";
 import type { RoadmapRating } from "@/types/roadmap";
+import { calculateAverageRating } from "@/lib/utils";
 
 const resourceTypeLabels: Record<string, string> = {
   book: "📖 Book",
@@ -49,10 +50,7 @@ export default async function RoadmapDetailPage({
     .eq("roadmap_id", id)
     .returns<RoadmapRating[]>();
 
-  const averageRating =
-    ratings && ratings.length > 0
-      ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
-      : null;
+    const averageRating = calculateAverageRating(ratings ?? []);
 
   const myExistingRating = ratings?.find((r) => r.user_id === user?.id) ?? null;
 
