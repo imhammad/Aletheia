@@ -21,6 +21,9 @@ export async function Navbar() {
         <Link href="/quiz" className="text-charcoal/70 hover:text-charcoal">
           Find Your Path
         </Link>
+        <Link href="/career-planner" className="text-charcoal/70 hover:text-charcoal">
+          Career Planner
+        </Link>
         {user ? (
           <>
             <span className="text-charcoal/70">{user.email}</span>
