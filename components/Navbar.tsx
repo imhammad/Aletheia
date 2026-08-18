@@ -6,6 +6,16 @@ export async function Navbar() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+    let displayName = user?.email;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", user.id)
+      .single();
+    if (profile?.username) displayName = profile.username;
+  }
+
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-cream border-b border-pistachio-300">
       <Link href="/" className="font-serif text-xl text-charcoal">
@@ -26,7 +36,7 @@ export async function Navbar() {
         </Link>
         {user ? (
           <>
-            <span className="text-charcoal/70">{user.email}</span>
+            <span className="text-charcoal/70" title={user.email}>{displayName}</span>
             <LogoutButton />
           </>
         ) : (
