@@ -18,6 +18,9 @@ export async function Navbar() {
         <Link href="/roadmaps" className="text-charcoal/70 hover:text-charcoal">
           Roadmaps
         </Link>
+        <Link href="/quiz" className="text-charcoal/70 hover:text-charcoal">
+          Find Your Path
+        </Link>
         {user ? (
           <>
             <span className="text-charcoal/70">{user.email}</span>
