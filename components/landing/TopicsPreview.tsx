@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import type { Topic } from "@/types/topic";
+import { TopicsPreviewGrid } from "./TopicsPreviewGrid";
 import { TextLink } from "@/components/ui/TextLink";
+import type { Topic } from "@/types/topic";
 
 export async function TopicsPreview() {
   const supabase = await createClient();
@@ -23,24 +23,10 @@ export async function TopicsPreview() {
           No mockups — these are live on the site right now.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {topics.map((topic) => (
-            <Link
-              key={topic.id}
-              href={`/topics/${topic.slug}`}
-              className="block bg-white hover:bg-cream transition-colors rounded-lg p-6 border border-pistachio-300"
-            >
-              <span className="font-sans text-xs text-ember-700 uppercase tracking-wide">
-                {topic.domain}
-              </span>
-              <h3 className="font-serif text-xl text-charcoal mt-1 mb-2">{topic.title}</h3>
-              <p className="font-sans text-charcoal/70 text-sm">{topic.summary}</p>
-            </Link>
-          ))}
-        </div>
+        <TopicsPreviewGrid topics={topics} />
 
         <div className="text-center mt-10">
-            <TextLink href="/topics">View all topics</TextLink>
+          <TextLink href="/topics">View all topics</TextLink>
         </div>
       </div>
     </section>
