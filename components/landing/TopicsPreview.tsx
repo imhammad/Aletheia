@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Topic } from "@/types/topic";
+import { TextLink } from "@/components/ui/TextLink";
 
 export async function TopicsPreview() {
   const supabase = await createClient();
@@ -39,12 +40,7 @@ export async function TopicsPreview() {
         </div>
 
         <div className="text-center mt-10">
-          <Link
-            href="/topics"
-            className="font-sans text-sm text-ember-700 hover:text-ember-500 underline"
-          >
-            View all topics →
-          </Link>
+            <TextLink href="/topics">View all topics</TextLink>
         </div>
       </div>
     </section>
