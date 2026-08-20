@@ -1,12 +1,23 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { HeroVisual } from "./HeroVisual";
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const visualY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-2 gap-12 items-center">
+    <section
+      ref={sectionRef}
+      className="max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-2 gap-12 items-center"
+    >
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -36,7 +47,9 @@ export function Hero() {
           </Link>
         </div>
       </motion.div>
-      <HeroVisual />
+      <motion.div style={{ y: visualY }}>
+        <HeroVisual />
+      </motion.div>
     </section>
   );
 }
