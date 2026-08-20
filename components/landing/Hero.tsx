@@ -1,10 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { HeroVisual } from "./HeroVisual";
 
 export function Hero() {
   return (
     <section className="max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-2 gap-12 items-center">
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <span className="font-sans text-sm text-ember-700 uppercase tracking-wide">
           A guide for computer science students
         </span>
@@ -28,7 +35,7 @@ export function Hero() {
             Browse roadmaps
           </Link>
         </div>
-      </div>
+      </motion.div>
       <HeroVisual />
     </section>
   );
