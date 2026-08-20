@@ -81,7 +81,7 @@ if (!isLoggedIn) {
           We use your account to save your recommendation.
         </p>
         <Link
-          href="/login"
+          href="/login?redirect=/quiz"
           className="inline-block bg-ember-500 hover:bg-ember-700 text-cream font-sans font-semibold px-6 py-3 rounded-md transition-colors"
         >
           Log in

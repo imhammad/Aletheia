@@ -68,7 +68,7 @@ export default function CareerPlannerPage() {
         <div className="text-center">
           <h1 className="font-serif text-3xl text-charcoal mb-4">Log in to build a career plan</h1>
           <Link
-            href="/login"
+            href="/login?redirect=/career-planner"
             className="inline-block bg-ember-500 hover:bg-ember-700 text-cream font-sans font-semibold px-6 py-3 rounded-md transition-colors"
           >
             Log in

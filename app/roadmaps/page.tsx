@@ -20,7 +20,7 @@ export default async function RoadmapsIndexPage({
 
   return (
     <main className="min-h-screen bg-cream py-16 px-6">
-      <div className="max-w-3xl mx-auto flex items-center justify-between mb-12">
+      <div className="max-w-3xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
         <div>
           <h1 className="font-serif text-4xl text-charcoal mb-2">
             Learning Roadmaps

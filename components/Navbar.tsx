@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { LogoutButton } from "./LogoutButton";
+import { LogoutButton } from "@/components/LogoutButton";
+import { MobileNav } from "@/components/MobileNav";
 
 export async function Navbar() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-    let displayName = user?.email;
+  let displayName = user?.email;
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
@@ -21,33 +22,25 @@ export async function Navbar() {
       <Link href="/" className="font-serif text-xl text-charcoal">
         Aletheia
       </Link>
-      <div className="flex items-center gap-4 font-sans text-sm">
-        <Link href="/topics" className="text-charcoal/70 hover:text-charcoal">
-          Topics
-        </Link>
-        <Link href="/roadmaps" className="text-charcoal/70 hover:text-charcoal">
-          Roadmaps
-        </Link>
-        <Link href="/quiz" className="text-charcoal/70 hover:text-charcoal">
-          Find Your Path
-        </Link>
-        <Link href="/career-planner" className="text-charcoal/70 hover:text-charcoal">
-          Career Planner
-        </Link>
+
+      <div className="hidden md:flex items-center gap-4 font-sans text-sm">
+        <Link href="/topics" className="text-charcoal/70 hover:text-charcoal">Topics</Link>
+        <Link href="/roadmaps" className="text-charcoal/70 hover:text-charcoal">Roadmaps</Link>
+        <Link href="/quiz" className="text-charcoal/70 hover:text-charcoal">Find Your Path</Link>
+        <Link href="/career-planner" className="text-charcoal/70 hover:text-charcoal">Career Planner</Link>
         {user ? (
           <>
             <span className="text-charcoal/70" title={user.email}>{displayName}</span>
             <LogoutButton />
           </>
         ) : (
-          <Link
-            href="/login"
-            className="bg-charcoal text-cream px-4 py-2 rounded-md hover:bg-charcoal/80"
-          >
+          <Link href="/login" className="bg-charcoal text-cream px-4 py-2 rounded-md hover:bg-charcoal/80">
             Log in
           </Link>
         )}
       </div>
+
+      <MobileNav displayName={displayName} userEmail={user?.email} />
     </nav>
   );
 }
