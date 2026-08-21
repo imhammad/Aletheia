@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Aletheia — A Guide for CS Students",
+  title: "Aletheia - A Guide for CS Students",
   description: "Visual learning, AI-driven roadmaps, and career planning for computer science students.",
 };
 
